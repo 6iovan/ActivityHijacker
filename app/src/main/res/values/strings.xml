@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">ActivityHijacker</string>
+    <string name="title_activity_hijacking">HijackingActivity</string>
+</resources>
