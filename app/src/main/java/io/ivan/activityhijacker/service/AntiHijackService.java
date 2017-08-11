@@ -1,6 +1,5 @@
 package io.ivan.activityhijacker.service;
 
-import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -23,18 +22,18 @@ import io.ivan.activityhijacker.R;
 public class AntiHijackService extends Service {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    private static final Class<? extends Context> START_ACTIVITY = Activity.class;
+    private static final Class<? extends Context> START_ACTIVITY = null;
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     private boolean isStart = false;
-    private Notification notification;
+    private NotificationCompat.Builder builder;
     private TimerTask timerTask = new TimerTask() {
         @Override
         public void run() {
             List<AndroidAppProcess> runningForegroundApps = AndroidProcesses.getRunningForegroundApps(AntiHijackService.this);
             if (runningForegroundApps.size() > 0) {
                 if (!runningForegroundApps.get(0).getPackageName().equals(getPackageName())) {
-                    if (notification == null) {
+                    if (builder == null) {
                         showClickableNotification(START_ACTIVITY);
                     }
                 }
@@ -59,22 +58,23 @@ public class AntiHijackService extends Service {
     }
 
     private void showClickableNotification(Class<? extends Context> clazz) {
-        PendingIntent pendingIntent = TaskStackBuilder.create(this)
-                .addParentStack(clazz)
-                .addNextIntent(new Intent(this, clazz))
-                .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-        notification = new NotificationCompat.Builder(this, getPackageName())
+        builder = new NotificationCompat.Builder(this, getPackageName())
                 .setSmallIcon(R.mipmap.ic_launcher_round)
                 .setContentTitle("警告！！！")
                 .setContentText(getResources().getString(R.string.app_name) + "你访问的页面可能被劫持。")
                 .setDefaults(Notification.DEFAULT_ALL)
-                .setContentIntent(pendingIntent)
-                .setAutoCancel(true)
-                .build();
+                .setAutoCancel(true);
+        if (clazz != null) {
+            PendingIntent pendingIntent = TaskStackBuilder.create(this)
+                    .addParentStack(clazz)
+                    .addNextIntent(new Intent(this, clazz))
+                    .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+            builder.setContentIntent(pendingIntent);
+        }
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         if (mNotificationManager != null) {
-            mNotificationManager.notify(1, notification);
+            mNotificationManager.notify(1, builder.build());
         }
     }
 
