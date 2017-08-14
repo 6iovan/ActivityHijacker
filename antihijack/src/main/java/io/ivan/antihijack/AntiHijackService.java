@@ -1,4 +1,4 @@
-package io.ivan.activityhijacker.service;
+package io.ivan.antihijack;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -16,8 +16,6 @@ import com.jaredrummler.android.processes.models.AndroidAppProcess;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import io.ivan.activityhijacker.R;
 
 public class AntiHijackService extends Service {
 
@@ -59,9 +57,9 @@ public class AntiHijackService extends Service {
 
     private void showClickableNotification(Class<? extends Context> clazz) {
         builder = new NotificationCompat.Builder(this, getPackageName())
-                .setSmallIcon(R.mipmap.ic_launcher_round)
+                .setSmallIcon(android.R.mipmap.sym_def_app_icon)
                 .setContentTitle("警告！！！")
-                .setContentText(getResources().getString(R.string.app_name) + "你访问的页面可能被劫持。")
+                .setContentText("您当前访问的页面可能被劫持。")
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setAutoCancel(true);
         if (clazz != null) {

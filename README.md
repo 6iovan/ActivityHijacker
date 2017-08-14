@@ -1,8 +1,8 @@
 # ActivityHijacker
 Hijack and AntiHijack for Android activity.
 
-but not work on Android 7.0
-
+Not work on Android7.0 or later.
+Because you have to use UsageStatsManager or have root access on Android7.0, So Android7.0 is safer than ever!
 
 # Usage
 
@@ -30,48 +30,11 @@ private static final Class<? extends Context> START_ACTIVITY = null;
 
 In Application:
 ```
-registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
-            @Override
-            public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-                Log.d(TAG, "onActivityCreated() called with: activity = [" + activity + "], savedInstanceState = [" + savedInstanceState + "]");
-            }
-
-            @Override
-            public void onActivityStarted(Activity activity) {
-                Log.d(TAG, "onActivityStarted() called with: activity = [" + activity + "]");
-            }
-
-            @Override
-            public void onActivityResumed(Activity activity) {
-                Log.d(TAG, "onActivityResumed() called with: activity = [" + activity + "]");
-                Intent intent = new Intent(activity, AntiHijackService.class);
-                stopService(intent);
-            }
-
-            @Override
-            public void onActivityPaused(Activity activity) {
-                Log.d(TAG, "onActivityPaused() called with: activity = [" + activity + "]");
-                Intent intent = new Intent(activity, AntiHijackService.class);
-                startService(intent);
-            }
-
-            @Override
-            public void onActivityStopped(Activity activity) {
-                Log.d(TAG, "onActivityStopped() called with: activity = [" + activity + "]");
-                Intent intent = new Intent(activity, AntiHijackService.class);
-                stopService(intent);
-            }
-
-            @Override
-            public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-                Log.d(TAG, "onActivitySaveInstanceState() called with: activity = [" + activity + "], outState = [" + outState + "]");
-            }
-
-            @Override
-            public void onActivityDestroyed(Activity activity) {
-                Log.d(TAG, "onActivityDestroyed() called with: activity = [" + activity + "]");
-            }
-        });
+@Override
+public void onCreate() {
+    super.onCreate();
+    AntiHijack.init(this);
+}
 ```
 
 

