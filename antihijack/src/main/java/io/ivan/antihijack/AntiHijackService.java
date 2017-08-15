@@ -23,21 +23,8 @@ public class AntiHijackService extends Service {
     private static final Class<? extends Context> START_ACTIVITY = null;
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    private boolean isStart = false;
-    private NotificationCompat.Builder builder;
-    private TimerTask timerTask = new TimerTask() {
-        @Override
-        public void run() {
-            List<AndroidAppProcess> runningForegroundApps = AndroidProcesses.getRunningForegroundApps(AntiHijackService.this);
-            if (runningForegroundApps.size() > 0) {
-                if (!runningForegroundApps.get(0).getPackageName().equals(getPackageName())) {
-                    if (builder == null) {
-                        showClickableNotification(START_ACTIVITY);
-                    }
-                }
-            }
-        }
-    };
+    private TimerTask timerTask;
+    private Timer timer;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -47,16 +34,38 @@ public class AntiHijackService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flag, int startId) {
         super.onStartCommand(intent, flag, startId);
-        if (!isStart) {
-            isStart = true;
-            new Timer().schedule(timerTask, 0, 1000);
+        timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                List<AndroidAppProcess> runningForegroundApps = AndroidProcesses.getRunningForegroundApps(AntiHijackService.this);
+                if (runningForegroundApps.size() > 0) {
+                    if (!runningForegroundApps.get(0).getPackageName().equals(getPackageName())) {
+                        showClickableNotification(START_ACTIVITY);
+                        stopSelf();
+                    }
+                }
+            }
+        };
+        timer = new Timer();
+        timer.schedule(timerTask, 0, 500);
+        return super.onStartCommand(intent, flag, startId);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (timerTask != null) {
+            timerTask.cancel();
+            timerTask = null;
         }
-        stopSelf();
-        return START_STICKY;
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+        }
     }
 
     private void showClickableNotification(Class<? extends Context> clazz) {
-        builder = new NotificationCompat.Builder(this, getPackageName())
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, getPackageName())
                 .setSmallIcon(android.R.mipmap.sym_def_app_icon)
                 .setContentTitle("警告！！！")
                 .setContentText("您当前访问的页面可能被劫持。")
@@ -69,10 +78,10 @@ public class AntiHijackService extends Service {
                     .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
             builder.setContentIntent(pendingIntent);
         }
-        NotificationManager mNotificationManager =
+        NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        if (mNotificationManager != null) {
-            mNotificationManager.notify(1, builder.build());
+        if (notificationManager != null) {
+            notificationManager.notify(1, builder.build());
         }
     }
 

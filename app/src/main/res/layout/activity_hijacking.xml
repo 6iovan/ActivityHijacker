@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context="io.ivan.activityhijacker.io.ivan.hijack.activity.HijackingActivity">
+    tools:context=".activity.HijackingActivity">
 
     <TextView
         android:layout_width="wrap_content"
