@@ -8,25 +8,16 @@ Because you have to use UsageStatsManager or have root access on Android7.0, So 
 
 
 ## Hijack
-Modify the constant in the HijackingService.kt
-```
-////////////////////////////////////////////////////////////////////////////////////////////////////
-const val U_WANT_TO_HIJACK = "com.google.android.youtube"
-const val HIJACK_ONLY_ONE = false
-////////////////////////////////////////////////////////////////////////////////////////////////////
-```
 
+```
+Hijack.start(this, "com.tencent.mm");
+
+Hijack.start(this, "com.tencent.mm", true);
+
+Hijack.stop(HijackingActivity.this);
+```
 
 ## Anti Hijack
-
-Copy the AntiHijackService.java in you App.
-
-Modify the constant
-```
-////////////////////////////////////////////////////////////////////////////////////////////////
-private static final Class<? extends Context> START_ACTIVITY = null;
-////////////////////////////////////////////////////////////////////////////////////////////////
-```
 
 In Application:
 ```
@@ -34,9 +25,27 @@ In Application:
 public void onCreate() {
     super.onCreate();
     AntiHijack.init(this);
+    AntiHijack.setNotificationContent(HomeActivity.class);
 }
 ```
 
+OR
+
+In BaseActivity:
+```
+@Override
+protected void onResume() {
+    super.onResume();
+    AntiHijack.onResume();
+}
+```
+```
+@Override
+protected void onPause() {
+    super.onPause();
+    AntiHijack.onPause(this);
+}
+```
 
 # Thanks
 [AndroidProcesses](https://github.com/jaredrummler/AndroidProcesses)

@@ -1,8 +1,3 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="io.ivan.antihijack">
-
-    <application>
-        <service android:name=".AntiHijackService" />
-    </application>
+<manifest package="io.ivan.antihijack">
 
 </manifest>

@@ -1,1 +1,1 @@
-include ':app', ':antihijack'
+include ':hijack-kotlin', ':antihijack', ':hijack'

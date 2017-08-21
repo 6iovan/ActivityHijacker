@@ -1,10 +1,11 @@
-apply plugin: 'com.android.library'
+apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
+        applicationId "io.ivan.activityhijacker"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -18,6 +19,8 @@ android {
     }
 }
 
+
+
 dependencies {
 
     def dependencies = rootProject.ext.dependencies
@@ -25,6 +28,6 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation dependencies.supportAppCompat
 
-    api 'com.jaredrummler:android-processes:1.0.9'
+    implementation 'com.jaredrummler:android-processes:1.0.9'
 
 }

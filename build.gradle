@@ -1,17 +1,11 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-
 buildscript {
-    ext.kotlin_version = '1.1.3-2'
     repositories {
         google()
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.0-beta2'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+        classpath 'com.android.tools.build:gradle:+'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:+"
     }
 }
 
@@ -24,4 +18,32 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+ext {
+
+    compileSdkVersion = 26
+    buildToolsVersion = '26.0.1'
+    minSdkVersion = 15
+    targetSdkVersion = 26
+
+    supportLibVersion = '26.0.1'
+    kotlinLibVersion = '1.1.3-2'
+
+    dependencies = [
+            // support
+            supportAppCompat   : "com.android.support:appcompat-v7:$supportLibVersion",
+            supportDesign      : "com.android.support:design:$supportLibVersion",
+            supportRecyclerview: "com.android.support:recyclerview-v7:$supportLibVersion",
+            supportGridlayout  : "com.android.support:gridlayout-v7:$supportLibVersion",
+            supportAnnotations : "com.android.support:support-annotations:$supportLibVersion",
+            supportCardView    : "com.android.support:cardview-v7:$supportLibVersion",
+            supportCustomTabs  : "com.android.support:customtabs:$supportLibVersion",
+            supportConstraint  : "com.android.support.constraint:constraint-layout:1.0.2",
+            supportMultidex    : "com.android.support:multidex:1.0.2",
+            // kotlin
+            kotlinStdlib       : "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlinLibVersion",
+    ]
+
+
 }
