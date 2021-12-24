@@ -1,17 +1,15 @@
-# [Deprecated]
+# DEPRECATED
 
----
-
-# ActivityHijacker
+## ActivityHijacker
 Hijack and AntiHijack for Android activity.
 
 Not work on Android7.0 or later.
 Because you have to use UsageStatsManager or have root access on Android7.0, So Android7.0 is safer than ever!
 
 
-# Usage
+## Usage
 
-## Hijack
+### Hijack
 
 ```java
 Hijack.start(this, "com.tencent.mm");
@@ -21,7 +19,7 @@ Hijack.start(this, "com.tencent.mm", true);
 Hijack.stop(HijackingActivity.this);
 ```
 
-## Anti Hijack
+### Anti Hijack
 
 In Application:
 
@@ -55,5 +53,5 @@ protected void onPause() {
 ```
 
 
-# Thanks
+## Thanks
 [AndroidProcesses](https://github.com/jaredrummler/AndroidProcesses)
