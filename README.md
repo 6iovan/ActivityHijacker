@@ -1,3 +1,7 @@
+# [Deprecated]
+
+---
+
 # ActivityHijacker
 Hijack and AntiHijack for Android activity.
 
